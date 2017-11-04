@@ -1,41 +1,39 @@
-var mouseVisitedClassname = 'dom-node__mouse-visited';
+const mouseVisitedClassname = 'dom-node__mouse-visited';
 
-// Previous dom, that we want to track, so we can remove the previous styling.
-var prevDOM = null;
+let prevDOM = null; // Previous dom, that we want to track, so we can remove the previous styling.
+let highlightedNode = null;
 
-document.addEventListener('mouseover', function (event) {
-  var srcElement = event.srcElement;
+const domNodeCounter = (event) => {
+  highlightedNode = event.srcElement;
   // var popup = document.getElementById('dom-node__container')
-  var mouseX = event.pageX;
-  var mouseY = event.pageY;
-  console.log(srcElement.getElementsByTagName('*'));
+  let mouseX = event.pageX;
+  let mouseY = event.pageY;
+  console.log(highlightedNode.getElementsByTagName('*'));
   // popup.style.top = mouseY;
   // popup.style.left = mouseX;
-  if (srcElement) {
+  if (highlightedNode) {
     if (prevDOM !== null) {
       prevDOM.classList.remove(mouseVisitedClassname);
     }
-    srcElement.classList.add(mouseVisitedClassname);
-    prevDOM = srcElement;
+    highlightedNode.classList.add(mouseVisitedClassname);
+    prevDOM = highlightedNode;
   }
-}, false);
-
-function handleMessage(request, sender, sendResponse) {
-  console.log("Message from the content script: " +
-    request);
-  sendResponse({response: "Response from background script"});
 }
-
-// chrome.runtime.onMessage.addListener(handleMessage);
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
+  (request, sender, sendResponse) => {
     console.log(request);
+    if (request.isEnabled) {
+      document.addEventListener('mouseover', domNodeCounter);
+    } else {
+      highlightedNode.classList.remove(mouseVisitedClassname);
+      document.removeEventListener('mouseover', domNodeCounter);
+    }
+
+    const handleMessage = (request, sender, sendResponse) => {
+      console.log("Message from the content script: " +
+        request);
+      sendResponse({response: "Response from background script"});
+    }
   });
 
-
-// trigger only when the button gets clicked.
-// work only on the tab where the button gets clicked.
 // show a little box next to the mouse (top right) with DOM info. 

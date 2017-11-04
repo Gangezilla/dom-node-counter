@@ -10,6 +10,12 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "css": ["core.css"],
+    "js": ["core.js"],
+    "all_frames": true
+  }],
   "permissions": [
     "activeTab"
   ]
