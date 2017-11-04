@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "DOM Node Counter",
+  "description": "This extension will allow a user find the number of child elements in an element on the page.",
+  "version": "1.0",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "css": ["core.css"],
+    "js": ["core.js"],
+    "run_at": "document_end",
+    "all_frames": true
+  }],
+  "permissions": [
+    "activeTab"
+  ]
+}
