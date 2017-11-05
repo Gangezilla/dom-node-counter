@@ -6,23 +6,15 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   } else {
     isEnabled = true;
   }
-
-  const handleResponse = (res) => {
-    console.log(res);
-  }
-
-  const handleError = (err) => {
-    console.error(err);
-  }
-
-  const responseCallback = (value) => {
-    console.log(value);
-  }
+  
   var request = { isEnabled };
   
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, request, function(response) {
+    chrome.tabs.sendMessage(tabs[0].id, request, (response) => {
       console.log('callback');
     });
   });
 });
+
+// var elem = document.getElementById("myDiv");
+// elem.parentNode.removeChild(elem);

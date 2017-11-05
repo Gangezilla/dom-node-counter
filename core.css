@@ -1,8 +1,9 @@
-#container { 
+#dom-node__popup { 
   position: absolute;
-  width: 150px;
-  height: 150px;
-  background-color: red;
+  width: 200px;
+  height: 70px;
+  font-size: 14px;
+  background-color: #DBDBDB;
 }
 
 .dom-node__mouse-visited {
